@@ -8,32 +8,24 @@
 <body>
     <h1>Formulario de Cita HL7 FHIR</h1>
     <form id="appointmentForm">
-        <label for="status">Estado:</label>
-        <select id="status" name="status" required>
-            <option value="booked">Reservada</option>
-            <option value="cancelled">Cancelada</option>
-            <option value="fulfilled">Completada</option>
-        </select><br><br>
-
-        <label for="start">Fecha y hora de inicio:</label>
-        <input type="datetime-local" id="start" name="start" required><br><br>
-
-        <label for="end">Fecha y hora de fin:</label>
-        <input type="datetime-local" id="end" name="end" required><br><br>
-
         <label for="patientId">ID del Paciente:</label>
         <input type="text" id="patientId" name="patientId" required><br><br>
 
-        <label for="practitionerId">ID del Profesional:</label>
-        <input type="text" id="practitionerId" name="practitionerId" required><br><br>
+        <label for="appointmentType">Tipo de Cita:</label>
+        <input type="text" id="appointmentType" name="appointmentType" placeholder="Ej: Consulta General" required><br><br>
 
-        <label for="reason">Motivo de la cita:</label>
-        <input type="text" id="reason" name="reason" required><br><br>
+        <label for="appointmentDate">Fecha de la Cita:</label>
+        <input type="date" id="appointmentDate" name="appointmentDate" required><br><br>
 
-        <button type="submit">Crear Cita</button>
+        <label for="appointmentTime">Hora de la Cita:</label>
+        <input type="time" id="appointmentTime" name="appointmentTime" required><br><br>
+
+        <label for="contact">Teléfono de Contacto:</label>
+        <input type="text" id="contact" name="contact" required><br><br>
+
+        <button type="submit">Registrar Cita</button>
     </form>
 
     <script src="app.js"></script>
 </body>
 </html>
-
