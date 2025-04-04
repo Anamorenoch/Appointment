@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Cita Médica - HL7 FHIR</title>
+    <title>Formulario de Cita HL7 FHIR</title>
 </head>
 <body>
-    <h1>Formulario de Cita Médica</h1>
-    
+    <h1>Formulario de Cita HL7 FHIR</h1>
     <form id="appointmentForm">
-        <label for="patientId">ID del Paciente:</label><br>
+        <label for="patientId">ID del Paciente:</label>
         <input type="text" id="patientId" name="patientId" required><br><br>
 
-        <label for="appointmentType">Tipo de Consulta:</label><br>
-        <input type="text" id="appointmentType" name="appointmentType" required><br><br>
+        <label for="appointmentType">Tipo de Cita:</label>
+        <input type="text" id="appointmentType" name="appointmentType" placeholder="Ej: Consulta General" required><br><br>
 
-        <label for="appointmentDate">Fecha de la Cita:</label><br>
+        <label for="appointmentDate">Fecha de la Cita:</label>
         <input type="date" id="appointmentDate" name="appointmentDate" required><br><br>
 
-        <label for="appointmentTime">Hora de la Cita:</label><br>
+        <label for="appointmentTime">Hora de la Cita:</label>
         <input type="time" id="appointmentTime" name="appointmentTime" required><br><br>
 
-        <label for="contact">Teléfono de Contacto:</label><br>
-        <input type="tel" id="contact" name="contact" required><br><br>
+        <label for="contact">Teléfono de Contacto:</label>
+        <input type="text" id="contact" name="contact" required><br><br>
 
         <button type="submit">Registrar Cita</button>
     </form>
