@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('appointmentForm');
-
-    form.addEventListener('submit', function(event) {
+    document.getElementById('appointmentForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
         // Obtener los valores del formulario
@@ -11,23 +9,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const appointmentTime = document.getElementById('appointmentTime').value;
         const contact = document.getElementById('contact').value;
 
-        // Validación rápida
-        if (!patientId || !appointmentType || !appointmentDate || !appointmentTime || !contact) {
-            alert('Por favor, complete todos los campos.');
-            return;
-        }
-
-        // Crear el objeto Appointment en formato HL7 FHIR
+        // Crear el objeto Appointment en formato FHIR
         const appointment = {
             resourceType: "Appointment",
             status: "booked",
             type: {
                 text: appointmentType
             },
-            start: new Date(`${appointmentDate}T${appointmentTime}:00`).toISOString(),
+            start: new Date(${appointmentDate}T${appointmentTime}:00).toISOString(),
             participant: [{
                 actor: {
-                    reference: `Patient/${patientId}`
+                    reference: Patient/${patientId}
                 },
                 status: "accepted"
             }],
@@ -37,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }]
         };
 
-        // Enviar el objeto con Fetch API
+        // Enviar los datos usando Fetch API
         fetch('https://hl7-fhir-ehr-ana-006.onrender.com/appointment', {
             method: 'POST',
             headers: {
@@ -45,18 +37,12 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(appointment)
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al registrar la cita');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            console.log('Éxito:', data);
-            alert('¡Cita registrada exitosamente!');
-            form.reset();
+            console.log('Success:', data);
+            alert('Cita registrada exitosamente!');
         })
-        .catch(error => {
+        .catch((error) => {
             console.error('Error:', error);
             alert('Hubo un error al registrar la cita.');
         });
