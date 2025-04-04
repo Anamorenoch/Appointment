@@ -3,75 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Cita Médica HL7 FHIR</title>
+    <title>Formulario de Cita HL7 FHIR</title>
 </head>
 <body>
     <h1>Formulario de Cita HL7 FHIR</h1>
     <form id="appointmentForm">
-        <label for="patientReference">Referencia del Paciente (ej: Patient/123):</label>
-        <input type="text" id="patientReference" name="patientReference" required><br><br>
-
-        <label for="patientName">Nombre del Paciente:</label>
-        <input type="text" id="patientName" name="patientName" required><br><br>
-
-        <label for="practitionerReference">Referencia del Profesional (ej: Practitioner/456):</label>
-        <input type="text" id="practitionerReference" name="practitionerReference" required><br><br>
-
-        <label for="practitionerName">Nombre del Profesional:</label>
-        <input type="text" id="practitionerName" name="practitionerName" required><br><br>
-
-        <label for="locationReference">Referencia del Lugar (ej: Location/1):</label>
-        <input type="text" id="locationReference" name="locationReference" required><br><br>
-
-        <label for="locationDisplay">Nombre o descripción del lugar:</label>
-        <input type="text" id="locationDisplay" name="locationDisplay" required><br><br>
+        <label for="patientId">ID del Paciente:</label>
+        <input type="text" id="patientId" name="patientId" required><br><br>
 
         <label for="appointmentType">Tipo de Cita:</label>
-        <select id="appointmentType" name="appointmentType" required>
-            <option value="FOLLOWUP">Visita de seguimiento</option>
-            <option value="ROUTINE">Consulta rutinaria</option>
-            <option value="CHECKUP">Chequeo</option>
-        </select><br><br>
+        <input type="text" id="appointmentType" name="appointmentType" placeholder="Ej: Consulta General" required><br><br>
 
-        <label for="serviceCategory">Categoría del Servicio:</label>
-        <select id="serviceCategory" name="serviceCategory" required>
-            <option value="gp">Medicina General</option>
-            <option value="derm">Dermatología</option>
-        </select><br><br>
-
-        <label for="serviceType">Tipo de Servicio:</label>
-        <select id="serviceType" name="serviceType" required>
-            <option value="52">Consulta General</option>
-            <option value="53">Consulta Especializada</option>
-        </select><br><br>
-
-        <label for="specialty">Especialidad:</label>
-        <select id="specialty" name="specialty" required>
-            <option value="394814009">Medicina General</option>
-            <option value="408467006">Pediatría</option>
-            <option value="394602003">Cardiología</option>
-        </select><br><br>
-
-        <label for="reasonReference">Referencia del Motivo (opcional, ej: Condition/123):</label>
-        <input type="text" id="reasonReference" name="reasonReference"><br><br>
-
-        <label for="reasonDisplay">Motivo (opcional):</label>
-        <input type="text" id="reasonDisplay" name="reasonDisplay"><br><br>
-
-        <label for="description">Descripción de la cita:</label>
-        <textarea id="description" name="description" rows="3" required></textarea><br><br>
-
-        <label for="notes">Notas adicionales:</label>
-        <textarea id="notes" name="notes" rows="2"></textarea><br><br>
-
-        <label for="appointmentDate">Fecha de la cita:</label>
+        <label for="appointmentDate">Fecha de la Cita:</label>
         <input type="date" id="appointmentDate" name="appointmentDate" required><br><br>
 
-        <label for="appointmentStartTime">Hora de inicio:</label>
-        <input type="time" id="appointmentStartTime" name="appointmentStartTime" required><br><br>
+        <label for="appointmentTime">Hora de la Cita:</label>
+        <input type="time" id="appointmentTime" name="appointmentTime" required><br><br>
 
-        <label for="appointmentEndTime">Hora de fin:</label>
-        <input type="time" id="appointmentEndTime" name="appointmentEndTime" required><br><br>
+        <label for="contact">Teléfono de Contacto:</label>
+        <input type="text" id="contact" name="contact" required><br><br>
 
         <button type="submit">Registrar Cita</button>
     </form>
