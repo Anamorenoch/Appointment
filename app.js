@@ -46,3 +46,4 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
         alert('Hubo un error al registrar la cita.');
     });
 });
+
