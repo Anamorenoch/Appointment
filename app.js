@@ -1,59 +1,61 @@
-document.addEventListener('DOMContentLoaded', function () {
-    console.log("JS cargado correctamente");
+document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    const form = document.getElementById('appointmentForm');
+    // Obtener los valores del formulario
+    const patientId = document.getElementById('patientId').value;
+    const appointmentDate = document.getElementById('appointmentDate').value;
+    const appointmentTime = document.getElementById('appointmentTime').value;
+    const contactPhone = document.getElementById('contactPhone').value;
+    const appointmentType = document.getElementById('appointmentType').value;
 
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
+    // Validar que la hora esté entre 08:00 y 20:00
+    const [hour] = appointmentTime.split(':').map(Number);
+    if (hour < 8 || hour >= 20) {
+        alert('La hora debe estar entre las 08:00 y las 20:00');
+        return;
+    }
 
-        const patientId = document.getElementById('patientId').value;
-        const appointmentType = document.getElementById('appointmentType').value;
-        const appointmentDate = document.getElementById('appointmentDate').value;
-        const appointmentTime = document.getElementById('appointmentTime').value;
-        const contact = document.getElementById('contact').value;
+    // Construir fecha completa en formato ISO
+    const startDateTime = `${appointmentDate}T${appointmentTime}:00`;
 
-        const appointment = {
-            resourceType: "Appointment",
-            status: "booked",
-            type: {
-                text: appointmentType
-            },
-            start: new Date(${appointmentDate}T${appointmentTime}:00).toISOString(),
-            participant: [{
+    // Crear el objeto Appointment en formato FHIR
+    const appointment = {
+        resourceType: "Appointment",
+        status: "booked",
+        start: startDateTime,
+        participant: [
+            {
                 actor: {
-                    reference: Patient/${patientId}
+                    reference: `Patient/${patientId}`
                 },
                 status: "accepted"
-            }],
-            telecom: [{
-                system: "phone",
-                value: contact
-            }]
-        };
-
-        console.log("Enviando datos:", appointment);
-
-        fetch('https://hl7-fhir-ehr-ana-006.onrender.com/appointment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(appointment)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(Error en la solicitud: ${response.status});
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Éxito:', data);
-            alert('Cita registrada exitosamente');
-            form.reset();
-        })
-        .catch((error) => {
-            console.error('Error al registrar la cita:', error);
-            alert('Hubo un error al registrar la cita. Revisa la consola.');
-        });
+        ],
+        reasonCode: [{
+            text: appointmentType
+        }],
+        telecom: [{
+            system: "phone",
+            value: contactPhone,
+            use: "home"
+        }]
+    };
+
+    // Enviar los datos usando Fetch API
+    fetch('https://hl7-fhir-ehr-ana-006.onrender.com/appointment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(appointment)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        alert('Cita creada exitosamente!');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Hubo un error al crear la cita.');
     });
 });
