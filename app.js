@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
             type: {
                 text: appointmentType
             },
-            start: new Date(${appointmentDate}T${appointmentTime}:00).toISOString(),
+            start: new Date(`${appointmentDate}T${appointmentTime}:00`).toISOString(),
             participant: [{
                 actor: {
-                    reference: Patient/${patientId}
+                    reference: `Patient/${patientId}`
                 },
                 status: "accepted"
             }],
