@@ -1,18 +1,33 @@
-<form id="appointmentForm">
-    <label for="patientId">ID del paciente:</label>
-    <input type="text" id="patientId" required><br>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Cita HL7 FHIR</title>
+</head>
+<body>
+    <h1>Formulario de Cita HL7 FHIR</h1>
 
-    <label for="appointmentDate">Fecha:</label>
-    <input type="date" id="appointmentDate" required><br>
+    <form id="appointmentForm">
+        <label for="patientId">ID del Paciente:</label>
+        <input type="text" id="patientId" name="patientId" required><br><br>
 
-    <label for="appointmentTime">Hora (08:00 - 20:00):</label>
-    <input type="time" id="appointmentTime" required><br>
+        <label for="appointmentDate">Fecha de la cita:</label>
+        <input type="date" id="appointmentDate" name="appointmentDate" required><br><br>
 
-    <label for="contactPhone">Teléfono de contacto:</label>
-    <input type="tel" id="contactPhone" required><br>
+        <label for="appointmentTime">Hora de la cita (08:00 - 20:00):</label>
+        <input type="time" id="appointmentTime" name="appointmentTime" required><br><br>
 
-    <label for="appointmentType">Tipo de cita:</label>
-    <input type="text" id="appointmentType" required><br>
+        <label for="contactPhone">Teléfono de contacto:</label>
+        <input type="tel" id="contactPhone" name="contactPhone" required><br><br>
 
-    <button type="submit">Agendar Cita</button>
-</form>
+        <label for="appointmentType">Tipo de cita:</label>
+        <input type="text" id="appointmentType" name="appointmentType" required><br><br>
+
+        <button type="submit">Agendar Cita</button>
+    </form>
+
+    <!-- Conexión al script -->
+    <script src="app.js"></script>
+</body>
+</html>
