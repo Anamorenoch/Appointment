@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+    console.log("JS cargado correctamente");
+
+    const form = document.getElementById('appointmentForm');
+
+    form.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const patientId = document.getElementById('patientId').value;
@@ -27,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }]
         };
 
-        console.log("Datos enviados:", appointment); // ← útil para verificar
+        console.log("Enviando datos:", appointment);
 
         fetch('https://hl7-fhir-ehr-ana-006.onrender.com/appointment', {
             method: 'POST',
@@ -37,16 +41,19 @@ document.addEventListener('DOMContentLoaded', function () {
             body: JSON.stringify(appointment)
         })
         .then(response => {
-            if (!response.ok) throw new Error("Error HTTP: " + response.status);
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status}`);
+            }
             return response.json();
         })
         .then(data => {
-            console.log('Success:', data);
-            alert('Cita registrada exitosamente!');
+            console.log('Éxito:', data);
+            alert('Cita registrada exitosamente');
+            form.reset();
         })
         .catch((error) => {
-            console.error('Error:', error);
-            alert('Hubo un error al registrar la cita.');
+            console.error('Error al registrar la cita:', error);
+            alert('Hubo un error al registrar la cita. Revisa la consola.');
         });
     });
 });
