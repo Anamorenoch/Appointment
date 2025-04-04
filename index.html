@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -8,34 +8,22 @@
 <body>
     <h1>Formulario de Cita HL7 FHIR</h1>
     <form id="appointmentForm">
-        <label for="status">Estado de la Cita:</label>
-        <select id="status" name="status" required>
-            <option value="booked">Reservada</option>
-            <option value="arrived">Llegó</option>
-            <option value="fulfilled">Cumplida</option>
-            <option value="cancelled">Cancelada</option>
-            <option value="noshow">No se presentó</option>
-        </select><br><br>
+        <label for="patientId">ID del Paciente:</label>
+        <input type="text" id="patientId" name="patientId" required><br><br>
 
-        <label for="patientReference">ID del Paciente:</label>
-        <input type="text" id="patientReference" name="patientReference" required><br><br>
+        <label for="appointmentType">Tipo de Cita:</label>
+        <input type="text" id="appointmentType" name="appointmentType" placeholder="Ej: Consulta General" required><br><br>
 
-        <label for="practitionerReference">ID del Profesional de Salud:</label>
-        <input type="text" id="practitionerReference" name="practitionerReference" required><br><br>
+        <label for="appointmentDate">Fecha de la Cita:</label>
+        <input type="date" id="appointmentDate" name="appointmentDate" required><br><br>
 
-        <label for="start">Fecha y Hora de Inicio:</label>
-        <input type="datetime-local" id="start" name="start" required><br><br>
+        <label for="appointmentTime">Hora de la Cita:</label>
+        <input type="time" id="appointmentTime" name="appointmentTime" required><br><br>
 
-        <label for="end">Fecha y Hora de Fin:</label>
-        <input type="datetime-local" id="end" name="end" required><br><br>
+        <label for="contact">Teléfono de Contacto:</label>
+        <input type="text" id="contact" name="contact" required><br><br>
 
-        <label for="reasonCode">Código de Motivo (SNOMED):</label>
-        <input type="text" id="reasonCode" name="reasonCode" required><br><br>
-
-        <label for="reasonDisplay">Descripción del Motivo:</label>
-        <input type="text" id="reasonDisplay" name="reasonDisplay" required><br><br>
-
-        <button type="submit">Enviar</button>
+        <button type="submit">Registrar Cita</button>
     </form>
 
     <script src="app.js"></script>
