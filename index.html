@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Cita HL7 FHIR</title>
+</head>
+<body>
+    <h1>Agendar Cita Médica (FHIR Appointment)</h1>
+    <form id="appointmentForm">
+        <label for="name">Nombre del paciente:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="identifier">ID del paciente:</label>
+        <input type="text" id="identifier" name="identifier" required><br><br>
+
+        <label for="type">Tipo de cita:</label>
+        <select id="type" name="type" required>
+            <option value="Consulta general">Consulta general</option>
+            <option value="Control">Control</option>
+            <option value="Especialista">Especialista</option>
+        </select><br><br>
+
+        <label for="date">Fecha de la cita:</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <label for="time">Hora de la cita (entre 08:00 y 18:00):</label>
+        <input type="time" id="time" name="time" min="08:00" max="18:00" required><br><br>
+
+        <label for="contact">Número de contacto:</label>
+        <input type="text" id="contact" name="contact" required><br><br>
+
+        <button type="submit">Agendar Cita</button>
+    </form>
+
+    <script src="appointment.js"></script>
+</body>
+</html>
