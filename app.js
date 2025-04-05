@@ -54,11 +54,7 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
                 status: "accepted"
             }
         ],
-        reasonCode: {
-                text: appointmentType
-        },
-        // Se incluye 'telecom' solo si tu servidor acepta ese campo en Appointment
-        // Si no, se puede omitir o mover a otro recurso relacionado como Patient o Practitioner
+       
     };
 
     // Enviar los datos usando Fetch API
