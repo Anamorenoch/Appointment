@@ -18,11 +18,17 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
     const pad = n => n.toString().padStart(2, '0');
     // Crear fecha/hora en local manualmente con el offset colombiano
     const startDateTime = `${appointmentDate}T${appointmentTime}:00-05:00`;
-   
-    const localDateTime = new Date(`${appointmentDate}T${appointmentTime}`);
-    const end = new Date(localDateTime.getTime() + 30 * 60000);
-    const endDateTime = `${end.getFullYear()}-${pad(end.getMonth() + 1)}-${pad(end.getDate())}T${pad(end.getHours())}:${pad(end.getMinutes())}:00-05:00`;
-    // Crear el objeto Appointment en formato FHIR
+   // Calcular endDateTime sumando 30 minutos manualmente
+    let endHour = hour;
+    let endMinute = minute + 30;
+    if (endMinute >= 60) {
+        endMinute -= 60;
+        endHour += 1;
+    }
+
+    const endDateTime = `${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00`;
+
+  // Crear el objeto Appointment en formato FHIR
     const appointment = {
         resourceType: "Appointment",
         status: "booked",
