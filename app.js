@@ -39,20 +39,7 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
                 },
                 status: "accepted"
             },
-            {
-                actor: {
-                    reference: "Practitioner/example-practitioner",
-                    display: "Dra. María Gómez"
-                },
-                status: "accepted"
-            },
-            {
-                actor: {
-                    reference: "Location/example-location",
-                    display: "Consultorio Central - Piso 2"
-                },
-                status: "accepted"
-            }
+            
         ],
        
     };
