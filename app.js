@@ -3,6 +3,7 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
 
     // Obtener los valores del formulario
     const patientId = document.getElementById('patientId').value;
+    const patientName = document.getElementById('patientName').value; 
     const appointmentDate = document.getElementById('appointmentDate').value;
     const appointmentTime = document.getElementById('appointmentTime').value;
     const contactPhone = document.getElementById('contactPhone').value;
@@ -34,7 +35,7 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
             {
                 actor: {
                     reference: `Patient/${patientId}`,
-                    display: "Nombre del paciente"
+                    display: patientName
                 },
                 status: "accepted"
             },
