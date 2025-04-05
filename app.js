@@ -17,13 +17,11 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
     }
 
     // Construir fecha y hora de inicio y fin (30 min después)
-    const startDateTime = `${appointmentDate}T${appointmentTime}:00-05:00`;
-
-    // Calcular la hora de fin
-const localDateTime = new Date(`${appointmentDate}T${appointmentTime}`);
-const startDateTime = localDateTime.toISOString();
-const end = new Date(localDateTime.getTime() + 30 * 60000);
-const endDateTime = end.toISOString();
+    const localDateTime = new Date(`${appointmentDate}T${appointmentTime}`);
+    const startDateTime = localDateTime.toISOString();
+    const end = new Date(localDateTime.getTime() + 30 * 60000);
+    const endDateTime = end.toISOString();
+    
     // Crear el objeto Appointment en formato FHIR
     const appointment = {
         resourceType: "Appointment",
