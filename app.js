@@ -20,11 +20,10 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
     const startDateTime = `${appointmentDate}T${appointmentTime}:00-05:00`;
 
     // Calcular la hora de fin
-    const start = new Date(`${appointmentDate}T${appointmentTime}`);
-    const end = new Date(start.getTime() + 30 * 60000); // +30 minutos
-    const pad = n => n.toString().padStart(2, '0');
-    const endDateTime = `${end.getFullYear()}-${pad(end.getMonth() + 1)}-${pad(end.getDate())}T${pad(end.getHours())}:${pad(end.getMinutes())}:00-05:00`;
-
+const localDateTime = new Date(`${appointmentDate}T${appointmentTime}`);
+const startDateTime = localDateTime.toISOString();
+const end = new Date(localDateTime.getTime() + 30 * 60000);
+const endDateTime = end.toISOString();
     // Crear el objeto Appointment en formato FHIR
     const appointment = {
         resourceType: "Appointment",
