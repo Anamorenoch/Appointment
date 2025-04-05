@@ -15,13 +15,13 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
         alert('La hora debe estar entre las 08:00 y las 20:00');
         return;
     }
-
-    // Construir fecha y hora de inicio y fin (30 min después)
+    const pad = n => n.toString().padStart(2, '0');
+    // Crear fecha/hora en local manualmente con el offset colombiano
+    const startDateTime = `${appointmentDate}T${appointmentTime}:00-05:00`;
+    const [hour, minute] = appointmentTime.split(':').map(Number);
     const localDateTime = new Date(`${appointmentDate}T${appointmentTime}`);
-    const startDateTime = localDateTime.toISOString();
     const end = new Date(localDateTime.getTime() + 30 * 60000);
-    const endDateTime = end.toISOString();
-    
+    const endDateTime = `${end.getFullYear()}-${pad(end.getMonth() + 1)}-${pad(end.getDate())}T${pad(end.getHours())}:${pad(end.getMinutes())}:00-05:00`;
     // Crear el objeto Appointment en formato FHIR
     const appointment = {
         resourceType: "Appointment",
