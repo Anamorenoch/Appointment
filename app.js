@@ -35,11 +35,13 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
             alert('Paciente no registrado. Por favor verifique el ID.');
             return;
         }
+
         const data = await checkResponse.json();
-        if (!data.entry || data.entry.length === 0) {
+        if (!data || Object.keys(data).length === 0) {
             alert('Paciente no registrado. Por favor verifique el ID.');
             return;
         }
+
     } catch (error) {
         console.error('Error al verificar paciente:', error);
         alert('Error al verificar el paciente. Inténtelo más tarde.');
