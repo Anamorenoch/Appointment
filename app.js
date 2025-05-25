@@ -31,9 +31,14 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
 
     try {
         const checkResponse = await fetch(queryUrl);
-        if (!checkResponse.ok) {
+
+        if (checkResponse.status === 204) {
             alert('Paciente no registrado. Por favor verifique el ID.');
             return;
+        }
+
+        if (!checkResponse.ok) {
+            throw new Error(`Error del servidor: ${checkResponse.status}`);
         }
 
         const data = await checkResponse.json();
