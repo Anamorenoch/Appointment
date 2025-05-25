@@ -19,7 +19,7 @@
         <input type="date" id="appointmentDate" name="appointmentDate" required><br><br>
 
         <label for="appointmentTime">Hora de la cita (08:00 - 20:00):</label>
-        <input type="time" id="appointmentTime" name="appointmentTime" required><br><br>
+        <select id="appointmentTime" name="appointmentTime" required></select><br><br>
 
         <label for="contactPhone">Teléfono de contacto:</label>
         <input type="tel" id="contactPhone" name="contactPhone" required><br><br>
@@ -32,5 +32,30 @@
 
     <!-- Conexión al script -->
     <script src="app.js"></script>
+    <script>
+        const appointmentTimeSelect = document.getElementById('appointmentTime');
+        const appointmentDateInput = document.getElementById('appointmentDate');
+
+        function generarHorasDisponibles() {
+            appointmentTimeSelect.innerHTML = ''; // limpiar
+            const horas = [];
+            for (let h = 8; h < 20; h++) {
+                for (let m of [0, 30]) {
+                    const hour = h.toString().padStart(2, '0');
+                    const minute = m.toString().padStart(2, '0');
+                    horas.push(`${hour}:${minute}`);
+                }
+            }
+            for (let hora of horas) {
+                const option = document.createElement('option');
+                option.value = hora;
+                option.textContent = hora;
+                appointmentTimeSelect.appendChild(option);
+            }
+        }
+
+        appointmentDateInput.addEventListener('change', generarHorasDisponibles);
+        window.addEventListener('DOMContentLoaded', generarHorasDisponibles);
+    </script>
 </body>
 </html>
