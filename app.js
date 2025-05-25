@@ -67,7 +67,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
 
     // Verificar si ya existe una cita en ese horario
     try {
-        const checkUrl = `https://hl7-fhir-ehr-ana-006.onrender.com/appointment?date=${encodeURIComponent(startDateTime)}`;
+        const checkUrl = `https://hl7-fhir-ehr-ana-006.onrender.com/appointment?start=${encodeURIComponent(startDateTime)}`;
         const res = await fetch(checkUrl);
         const citas = await res.json();
         if (Array.isArray(citas.entry) && citas.entry.length > 0) {
