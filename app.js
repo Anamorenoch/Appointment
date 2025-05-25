@@ -65,6 +65,21 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
     }
     const endDateTime = `${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00`;
 
+    // Verificar si ya existe una cita en ese horario
+    try {
+        const checkUrl = `https://hl7-fhir-ehr-ana-006.onrender.com/appointment?date=${encodeURIComponent(startDateTime)}`;
+        const res = await fetch(checkUrl);
+        const citas = await res.json();
+        if (Array.isArray(citas.entry) && citas.entry.length > 0) {
+            alert('Ya existe una cita agendada en esa fecha y hora. Elija otra hora.');
+            return;
+        }
+    } catch (error) {
+        console.error('Error al verificar disponibilidad:', error);
+        alert('No se pudo verificar la disponibilidad de la cita. Intente de nuevo más tarde.');
+        return;
+    }
+
     // Crear el objeto Appointment (NO modificado como pediste)
     const appointment = {
         resourceType: "Appointment",
