@@ -65,9 +65,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
     }
     const endDateTime = `${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00`;
 
-
-
-    // Crear el objeto Appointment JSON
+    // Crear el objeto Appointment (NO modificado como pediste)
     const appointment = {
         resourceType: "Appointment",
         status: "booked",
