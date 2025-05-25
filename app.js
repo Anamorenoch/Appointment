@@ -25,10 +25,18 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         return;
     }
 
-    // Verificar si el paciente existe en la base de datos
+    // Verificar si el paciente existe en la base de datos por identificador
+    const system = "http://cedula";
+    const queryUrl = `https://hl7-fhir-ehr-ana-006.onrender.com/patient?system=${encodeURIComponent(system)}&value=${encodeURIComponent(patientId)}`;
+
     try {
-        const checkResponse = await fetch(`https://hl7-fhir-ehr-ana-006.onrender.com/patient/${patientId}`);
+        const checkResponse = await fetch(queryUrl);
         if (!checkResponse.ok) {
+            alert('Paciente no registrado. Por favor verifique el ID.');
+            return;
+        }
+        const data = await checkResponse.json();
+        if (!data.entry || data.entry.length === 0) {
             alert('Paciente no registrado. Por favor verifique el ID.');
             return;
         }
@@ -38,6 +46,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         return;
     }
 
+    // Calcular hora de inicio y fin
     const pad = n => n.toString().padStart(2, '0');
     const startDateTime = `${appointmentDate}T${appointmentTime}:00-05:00`;
 
@@ -49,7 +58,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
     }
     const endDateTime = `${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00`;
 
-    // Crear el objeto Appointment (no modificado)
+    // Crear el objeto Appointment (NO modificado como pediste)
     const appointment = {
         resourceType: "Appointment",
         status: "booked",
