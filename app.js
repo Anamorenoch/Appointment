@@ -91,6 +91,17 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         body: JSON.stringify(appointment)
     })
     .then(response => response.json())
+    .then(response => {
+    if (!response.ok) {
+        if (response.status === 409) {
+            alert('Ya hay una cita agendada en esa hora. Por favor elige otra.');
+            return;
+        }
+        throw new Error(`Error del servidor: ${response.status}`);
+    }
+    return response.json();
+})
+
     .then(data => {
         console.log('Success:', data);
         alert('Cita creada exitosamente!');
