@@ -12,7 +12,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
     // Validar que la fecha no sea hoy ni anterior
     const selectedDate = new Date(appointmentDate);
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Ignorar hora para comparar solo fechas
+    today.setHours(0, 0, 0, 0);
     if (selectedDate <= today) {
         alert('No se pueden programar citas para hoy ni días anteriores.');
         return;
@@ -25,7 +25,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         return;
     }
 
-    // Verificar si el paciente existe en la base de datos por identificador
+    // Verificar si el paciente existe en la base de datos
     const system = "http://cedula";
     const queryUrl = `https://hl7-fhir-ehr-ana-006.onrender.com/patient?system=${encodeURIComponent(system)}&value=${encodeURIComponent(patientId)}`;
 
@@ -65,7 +65,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
     }
     const endDateTime = `${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00`;
 
-    // Crear el objeto Appointment (NO modificado como pediste)
+    // Crear el objeto Appointment
     const appointment = {
         resourceType: "Appointment",
         status: "booked",
@@ -84,36 +84,37 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
 
     // Enviar el Appointment al servidor
     fetch('https://hl7-fhir-ehr-ana-006.onrender.com/appointment', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(appointment)
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(appointment)
     })
     .then(async (response) => {
-    if (!response.ok) {
-        if (response.status === 409) {
-            alert('Ya hay una cita agendada en esa hora. Por favor elige otra.');
-            throw new Error("Cita duplicada");
+        if (!response.ok) {
+            if (response.status === 409) {
+                alert('Ya hay una cita agendada en esa hora. Por favor elige otra.');
+                throw new Error("Cita duplicada");
+            }
+
+            let errorText = await response.text();
+            throw new Error(`Error del servidor (${response.status}): ${errorText}`);
         }
 
-        let errorText = await response.text(); // Intentar leer mensaje de error si existe
-        throw new Error(`Error del servidor (${response.status}): ${errorText}`);
-    }
-
-    // Si hay contenido, procesar como JSON; si no, retornar vacío
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-        return response.json();
-    } else {
-        return {}; // o null si prefieres
-    }
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            return response.json();
+        } else {
+            return {};
+        }
     })
     .then(data => {
-    console.log('Success:', data);
-    alert('Cita creada exitosamente!');
+        console.log('Success:', data);
+        alert('¡Cita creada exitosamente!');
+        document.getElementById('appointmentForm').reset(); // Borra los datos del formulario
     })
     .catch((error) => {
-    console.error('Error:', error);
-    alert('Hubo un error al crear la cita.');
+        console.error('Error:', error);
+        alert(error.message || 'Hubo un error al crear la cita.');
     });
+});
