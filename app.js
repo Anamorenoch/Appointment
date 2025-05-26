@@ -27,7 +27,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
 
     // Verificar si el paciente existe en la base de datos por identificador
     const system = "http://cedula";
-    const queryUrl = https://hl7-fhir-ehr-ana-006.onrender.com/patient?system=${encodeURIComponent(system)}&value=${encodeURIComponent(patientId)};
+    const queryUrl = `https://hl7-fhir-ehr-ana-006.onrender.com/patient?system=${encodeURIComponent(system)}&value=${encodeURIComponent(patientId)}`;
 
     try {
         const checkResponse = await fetch(queryUrl);
@@ -38,7 +38,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         }
 
         if (!checkResponse.ok) {
-            throw new Error(Error del servidor: ${checkResponse.status});
+            throw new Error(`Error del servidor: ${checkResponse.status}`);
         }
 
         const data = await checkResponse.json();
@@ -55,7 +55,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
 
     // Calcular hora de inicio y fin
     const pad = n => n.toString().padStart(2, '0');
-    const startDateTime = ${appointmentDate}T${appointmentTime}:00-05:00;
+    const startDateTime = `${appointmentDate}T${appointmentTime}:00-05:00`;
 
     let endHour = hour;
     let endMinute = minute + 30;
@@ -63,7 +63,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         endMinute -= 60;
         endHour += 1;
     }
-    const endDateTime = ${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00;
+    const endDateTime = `${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00`;
 
     // Crear el objeto Appointment (NO modificado como pediste)
     const appointment = {
@@ -74,7 +74,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         participant: [
             {
                 actor: {
-                    reference: Patient/${patientId},
+                    reference: `Patient/${patientId}`,
                     display: patientName
                 },
                 status: "accepted"
