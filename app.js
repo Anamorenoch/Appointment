@@ -12,7 +12,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
     // Validar que la fecha no sea hoy ni anterior
     const selectedDate = new Date(appointmentDate);
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0); // Ignorar hora para comparar solo fechas
     if (selectedDate <= today) {
         alert('No se pueden programar citas para hoy ni días anteriores.');
         return;
@@ -25,9 +25,9 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         return;
     }
 
-    // Verificar si el paciente existe en la base de datos
+    // Verificar si el paciente existe en la base de datos por identificador
     const system = "http://cedula";
-    const queryUrl = `https://hl7-fhir-ehr-ana-006.onrender.com/patient?system=${encodeURIComponent(system)}&value=${encodeURIComponent(patientId)}`;
+    const queryUrl = https://hl7-fhir-ehr-ana-006.onrender.com/patient?system=${encodeURIComponent(system)}&value=${encodeURIComponent(patientId)};
 
     try {
         const checkResponse = await fetch(queryUrl);
@@ -38,7 +38,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         }
 
         if (!checkResponse.ok) {
-            throw new Error(`Error del servidor: ${checkResponse.status}`);
+            throw new Error(Error del servidor: ${checkResponse.status});
         }
 
         const data = await checkResponse.json();
@@ -55,7 +55,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
 
     // Calcular hora de inicio y fin
     const pad = n => n.toString().padStart(2, '0');
-    const startDateTime = `${appointmentDate}T${appointmentTime}:00-05:00`;
+    const startDateTime = ${appointmentDate}T${appointmentTime}:00-05:00;
 
     let endHour = hour;
     let endMinute = minute + 30;
@@ -63,9 +63,9 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         endMinute -= 60;
         endHour += 1;
     }
-    const endDateTime = `${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00`;
+    const endDateTime = ${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00;
 
-    // Crear el objeto Appointment
+    // Crear el objeto Appointment (NO modificado como pediste)
     const appointment = {
         resourceType: "Appointment",
         status: "booked",
@@ -74,7 +74,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         participant: [
             {
                 actor: {
-                    reference: `Patient/${patientId}`,
+                    reference: Patient/${patientId},
                     display: patientName
                 },
                 status: "accepted"
@@ -90,31 +90,13 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         },
         body: JSON.stringify(appointment)
     })
-    .then(async (response) => {
-        if (!response.ok) {
-            if (response.status === 409) {
-                alert('Ya hay una cita agendada en esa hora. Por favor elige otra.');
-                throw new Error("Cita duplicada");
-            }
-
-            let errorText = await response.text();
-            throw new Error(`Error del servidor (${response.status}): ${errorText}`);
-        }
-
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-            return response.json();
-        } else {
-            return {};
-        }
-    })
+    .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        alert('¡Cita creada exitosamente!');
-        document.getElementById('appointmentForm').reset(); // Borra los datos del formulario
+        alert('Cita creada exitosamente!');
     })
     .catch((error) => {
         console.error('Error:', error);
-        alert(error.message || 'Hubo un error al crear la cita.');
+        alert('Hubo un error al crear la cita.');
     });
 });
