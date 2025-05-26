@@ -65,7 +65,7 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
     }
     const endDateTime = `${appointmentDate}T${pad(endHour)}:${pad(endMinute)}:00-05:00`;
 
-    // Crear el objeto Appointment (NO modificado como pediste)
+    // Crear el objeto Appointment
     const appointment = {
         resourceType: "Appointment",
         status: "booked",
@@ -90,13 +90,23 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         },
         body: JSON.stringify(appointment)
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(async response => {
+        if (response.status === 409) {
+            alert('Ya hay una cita programada a esa hora. Por favor elige otra.');
+            return;
+        }
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Error al crear la cita.');
+        }
+
+        const data = await response.json();
         console.log('Success:', data);
         alert('Cita creada exitosamente!');
     })
     .catch((error) => {
         console.error('Error:', error);
-        alert('Hubo un error al crear la cita.');
+        alert(error.message || 'Hubo un error al crear la cita.');
     });
 });
