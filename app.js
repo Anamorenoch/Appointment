@@ -90,18 +90,16 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         },
         body: JSON.stringify(appointment)
     })
-    .then(response => response.json())
     .then(response => {
-    if (!response.ok) {
-        if (response.status === 409) {
-            alert('Ya hay una cita agendada en esa hora. Por favor elige otra.');
-            return;
+        if (!response.ok) {
+            if (response.status === 409) {
+                alert('Ya hay una cita agendada en esa hora. Por favor elige otra.');
+                throw new Error("Cita duplicada");
+            }
+            throw new Error(`Error del servidor: ${response.status}`);
         }
-        throw new Error(`Error del servidor: ${response.status}`);
-    }
-    return response.json();
-})
-
+        return response.json();
+    })
     .then(data => {
         console.log('Success:', data);
         alert('Cita creada exitosamente!');
@@ -110,4 +108,3 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
         console.error('Error:', error);
         alert('Hubo un error al crear la cita.');
     });
-});
