@@ -84,27 +84,36 @@ document.getElementById('appointmentForm').addEventListener('submit', async func
 
     // Enviar el Appointment al servidor
     fetch('https://hl7-fhir-ehr-ana-006.onrender.com/appointment', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(appointment)
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(appointment)
     })
-    .then(response => {
-        if (!response.ok) {
-            if (response.status === 409) {
-                alert('Ya hay una cita agendada en esa hora. Por favor elige otra.');
-                throw new Error("Cita duplicada");
-            }
-            throw new Error(`Error del servidor: ${response.status}`);
+    .then(async (response) => {
+    if (!response.ok) {
+        if (response.status === 409) {
+            alert('Ya hay una cita agendada en esa hora. Por favor elige otra.');
+            throw new Error("Cita duplicada");
         }
+
+        let errorText = await response.text(); // Intentar leer mensaje de error si existe
+        throw new Error(`Error del servidor (${response.status}): ${errorText}`);
+    }
+
+    // Si hay contenido, procesar como JSON; si no, retornar vacío
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
         return response.json();
+    } else {
+        return {}; // o null si prefieres
+    }
     })
     .then(data => {
-        console.log('Success:', data);
-        alert('Cita creada exitosamente!');
+    console.log('Success:', data);
+    alert('Cita creada exitosamente!');
     })
     .catch((error) => {
-        console.error('Error:', error);
-        alert('Hubo un error al crear la cita.');
+    console.error('Error:', error);
+    alert('Hubo un error al crear la cita.');
     });
